@@ -1,0 +1,155 @@
+create database Universidad2;
+use Universidad2;
+
+ 
+create table Estudiante(
+ResgistroEstudiante int NOT NULL,
+nombreCompleto varchar (250),
+fechaNacimiento date,
+Carrera varchar (200),
+primary key (ResgistroEstudiante)
+);
+
+create table Materias(
+CodigoMaterias int NOT NULL,
+nombre varchar (250),
+NumeroCredito varchar (200),
+primary key (CodigoMaterias)
+);
+
+create table Inscripcion(
+id_Inscripcion int auto_increment not null,
+ResgistroEstudiante int not null,
+CodigoMaterias int not null,
+primary key(id_Inscripcion, ResgistroEstudiante, CodigoMaterias),
+foreign key (ResgistroEstudiante) references Estudiante(ResgistroEstudiante),
+foreign key (CodigoMaterias) references Materias(CodigoMaterias),
+unique key unicaInscipcion (ResgistroEstudiante,CodigoMaterias)
+);
+
+
+ 
+create table Notas(
+idNota int auto_increment,
+id_Inscripcion int,
+ResgistroEstudiante int,
+CodigoMaterias int,
+tipoExamen enum('PrimerExamen', 'SegundoExamen', 'Final') not null,
+nota decimal (4,2) not null,
+primary key  (idNota, id_Inscripcion),
+foreign key (id_Inscripcion) references Inscripcion(id_Inscripcion),
+foreign key (ResgistroEstudiante) references Inscripcion(ResgistroEstudiante),
+foreign key (CodigoMaterias) references Inscripcion(CodigoMaterias)
+);
+
+select * from Estudiante;
+select * from Materias;
+select * from Inscripcion;
+select * from Notas;
+
+-- INSERT DE LOS ESTUDIANTES REGISTRADOS
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (1,'Angelo Gareca','2003-07-30','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (2,'Angel Gareca','2000-08-30','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (3,'Alexia Gareca','2001-04-11','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (4,'Sergio Aguirre','2002-01-01','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (5,'Fabio Sanchez','2004-12-25','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (6,'Marcos Salas','2005-10-25','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (7,'Andres Soliz','2000-09-02','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (8,'Alejandro hurtado','2001-05-20','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (9,'Luciana Valdivia','2001-07-25','Ing. Sistemas');
+insert into Estudiante (ResgistroEstudiante,nombreCompleto,fechaNacimiento,Carrera)
+values (10,'Valeria Paz','2002-03-15','Ing. Sistemas');
+
+
+-- INSERT DE LAS MATERIAS
+insert into Materias (codigoMaterias, nombre, NumeroCredito) VALUES
+(1, 'Programacion 1', 4),
+(2, 'Programacion 2', 4),
+(3, 'Bases de Datos 1', 4),
+(4, 'Programacion 3', 4),
+(5, 'Bases de Datos 2', 4),
+(6, 'Programacion 4', 4),
+(7, 'Ingenieria Web', 4),
+(8, 'Ingeniería de Software', 4),
+(9, 'Bases de Datos 3', 4),
+(10, 'Redes 1', 4),
+(11, 'Desarrollo Web', 4),
+(12, 'Algoritmica Avanzada', 4),
+(13, 'Sistemas Operativos', 4),
+(14, 'Aplicaciones Móviles 1', 4),
+(15, 'Diseño Crossmedia', 4),
+(16, 'Aplicaciones Móviles 2', 4),
+(17, 'Comercio Electrónico', 4),
+(18, 'Redes 2', 4),
+(19, 'Planificación de Proyectos', 4),
+(20, 'Auditoria de Sistemas', 4);
+
+insert into Inscripcion (ResgistroEstudiante, CodigoMaterias) VALUES
+(1, 1), -- Angelo Gareca inscrito en Programacion 1
+(1, 3), -- Angelo Gareca inscrito en Bases de Datos 1
+(1, 7), -- Angelo Gareca inscrito en Ingenieria Web
+(2, 2), -- Angel Gareca inscrito en Programacion 2
+(2, 5), -- Angel Gareca inscrito en Bases de Datos 2
+(3, 2), -- Alexia Gareca inscrito en Programacion 2
+(3, 9), -- Alexia Gareca inscrito en Bases de Datos 3
+(4, 4), -- Sergio Aguirre inscrito en Programacion 3
+(4, 8), -- Sergio Aguirre inscrito en Ingeniería de Software
+(5, 3), -- Fabio Sanchez inscrito en Bases de Datos 1
+(5, 10), -- Fabio Sanchez inscrito en Redes 1
+(6, 6), -- Marcos Salas inscrito en Programacion 4
+(6, 11), -- Marcos Salas inscrito en Desarrollo Web
+(7, 4), -- Andres Soliz inscrito en Programacion 3
+(7, 13), -- Andres Soliz inscrito en Sistemas Operativos
+(8, 8), -- Alejandro Hurtado inscrito en Ingeniería de Software
+(8, 15), -- Alejandro Hurtado inscrito en Diseño Crossmedia
+(9, 1), -- Luciana Valdivia inscrito en Programacion 1
+(9, 12), -- Luciana Valdivia inscrito en Algoritmica Avanzada
+(10, 7), -- Valeria Paz inscrito en Ingenieria Web
+(10, 19); -- Valeria Paz inscrito en Planificación de Proyectos
+
+
+
+
+-- registros de notas 
+insert into Notas (id_Inscripcion, tipoExamen, nota) VALUES
+-- Estudiante 1 (Angelo Gareca)
+(1, '1.Examen', 80),
+(1, '2.Examen', 75),
+(1, 'Final', 85),
+-- Estudiante 2 (Angel Gareca)
+(2, '1.Examen', 85),
+(2, '2.Examen', 78),
+(2, 'Final', 90),
+-- Estudiante 3 (Alexia Gareca)
+(4, '1.Examen', 75),
+(4, '2.Examen', 82),
+(4, 'Final', 80),
+-- Estudiante 4 (Sergio Aguirre)
+(7, '1.Examen', 70),
+(7, '2.Examen', 68),
+(7, 'Final', 75),
+-- Estudiante 5 (Fabio Sanchez)
+(10, '1.Examen', 82),
+(10, '2.Examen', 79),
+(10, 'Final', 85),	
+-- Estudiante 6 (Marcos Salas)
+(12, '1.Examen', 88),
+(12, '2.Examen', 90),
+(12, 'Final', 86),
+-- Estudiante 7 (Andres Soliz)
+(14, '1.Examen', 75),
+(14, 'Segundo Examen', 78),
+(14, 'Final', 80);
+
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root' WITH GRANT OPTION;
